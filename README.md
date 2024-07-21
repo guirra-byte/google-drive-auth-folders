@@ -1,2 +1,9 @@
-# google-drive-snap2jpeg
-O google-drive-snap2jpeg é uma aplicação projetada para fotógrafos que capturam momentos especiais. A aplicação oferece uma solução eficiente para a conversão de fotos tiradas em formato .cr3 para JPEG no Google Drive.
+# Google Drive Snap2JPEG
+### Caso de Uso:
+Em projetos e temporadas da Lifeshape, milhares de fotos são capturadas e armazenadas em formato **`RAW .cr3`**. 
+Esse formato é comumente utilizado em câmeras Canon, oferecendo alta qualidade de imagem, mas **`não é suportado para visualização`** direta em plataformas como o **`Google Drive`**.
+
+O **`google-drive-snap2jpeg`** é uma aplicação projetada para facilitar a conversão de fotos tiradas durante as temporadas da **`Lifeshape BR`**. 
+A aplicação permite que os usuários carreguem fotos em formato .cr3 (Canon RAW) diretamente para uma pasta designada no Google Drive, onde serão automaticamente convertidas para o formato JPEG.
+<hr>
+<img src="https://github.com/user-attachments/assets/a6e076fa-2e42-4dcb-a76d-035892a043e8">
