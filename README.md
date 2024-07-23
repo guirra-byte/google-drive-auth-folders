@@ -6,4 +6,4 @@ Esse formato é comumente utilizado em câmeras Canon, oferecendo alta qualidade
 O **`google-drive-snap2jpeg`** é uma aplicação projetada para facilitar a conversão de fotos tiradas durante as temporadas da **`Lifeshape BR`**. 
 A aplicação permite que os usuários carreguem fotos em formato .cr3 (Canon RAW) diretamente para uma pasta designada no Google Drive, onde serão automaticamente convertidas para o formato JPEG.
 <hr>
-<img src="https://github.com/user-attachments/assets/a6e076fa-2e42-4dcb-a76d-035892a043e8">
+<img src="https://github.com/user-attachments/assets/a7d09552-eb4e-4a6b-a3e6-a804a4a10632">
