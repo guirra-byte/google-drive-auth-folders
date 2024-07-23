@@ -9,3 +9,8 @@ A aplicação permite que os usuários carreguem fotos em formato .cr3 (Canon RA
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a7d09552-eb4e-4a6b-a3e6-a804a4a10632">
 </p>
+
+## Stack de Tecnologias
+<p align="center">
+    <img src="https://www.aikonbox.com.br/icons?i=typescript,nodejs,expressjs&t=70" />
+</p>
