@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { nanoid } from "nanoid";
+import { googleDriveService } from "./services/google-drive.service";
 import { JpegifyService } from "./services/jpegify.service";
 const jpegifyRouter = Router();
 
@@ -16,7 +16,7 @@ jpegifyRouter.post(
   async (request: Request, response: Response) => {
     const data: IJpegify = request.body;
     if (data) {
-      const dispatchToJpegifyService = new JpegifyService();
+      const dispatchToJpegifyService = new JpegifyService(googleDriveService);
       await dispatchToJpegifyService.execute(data);
     }
 

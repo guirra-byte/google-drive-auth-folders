@@ -1,5 +1,4 @@
 import { IJpegify } from "../route";
-import { nanoid } from "nanoid";
 import { GoogleDriveService } from "./google-drive.service";
 import { Worker } from "node:worker_threads";
 
@@ -14,6 +13,7 @@ export class JpegifyService {
     for (let item = 0; item <= workers; item += itens) {
       const range = { start: item, end: item + itens };
       const label = `${range.start}...${range.end}`;
+
       if (!jpegifyWorkers[label]) {
         jpegifyWorkers[label] = new Worker("../workers/jpegify.worker.ts");
       }
