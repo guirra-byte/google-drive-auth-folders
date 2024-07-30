@@ -3,7 +3,7 @@
 Em projetos e temporadas da Lifeshape, milhares de fotos são capturadas e armazenadas em formato **`RAW .cr3`**. 
 Esse formato é comumente utilizado em câmeras Canon, oferecendo alta qualidade de imagem, mas **`não é suportado para visualização`** direta em plataformas como o **`Google Drive`**.
 
-O **`google-drive-snap2jpeg`** é uma aplicação projetada para facilitar a conversão de fotos tiradas durante as temporadas da **`Lifeshape BR`**. 
+O **`google-drive-snap2jpeg`** é uma aplicação projetada para facilitar a conversão de fotos tiradas durante as temporadas da <a href="https://www.instagram.com/lifeshapebrasil/">**`Lifeshape BR`**</a>  . 
 A aplicação permite que os usuários carreguem fotos em formato .cr3 (Canon RAW) diretamente para uma pasta designada no Google Drive, onde serão automaticamente convertidas para o formato JPEG.
 <hr>
 <p align="center">
