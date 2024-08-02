@@ -18,7 +18,7 @@ jpegifyRouter.get(
   async (request: Request, response: Response) => {
     const data: IChannelNotification = request.body;
     if (data) {
-      const watchDriveService = new WatchDriveService();
+      const watchDriveService = new WatchDriveService(googleDriveService);
       await watchDriveService.execute(data);
     }
 
