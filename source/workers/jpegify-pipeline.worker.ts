@@ -35,15 +35,15 @@ if (parentPort) {
         if (data.index === data.end - 1) {
           if (toJpeg !== "") {
             await sharp(toJpeg).jpeg().toFile(toJpeg);
-          }
 
-          const destineDrive = `${destineLocation.name} - JPEG`;
-          await googleDriveService.upload({
-            filePath: toJpeg,
-            driveId: data.driveId,
-            fileName: data.item.name,
-            destineLocation: destineDrive,
-          });
+            const destineDrive = `${destineLocation.name}`;
+            await googleDriveService.upload({
+              filePath: toJpeg,
+              driveId: data.driveId,
+              fileName: data.item.name,
+              destineLocation: destineDrive,
+            });
+          }
         }
       }
     }
