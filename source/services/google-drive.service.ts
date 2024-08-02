@@ -4,9 +4,20 @@ import { IJpegify } from "../route";
 import { authorize } from "../auth/google-auth";
 import fs from "fs";
 
+interface IWatchParams {
+  folderId: string;
+  resources: {
+    channel: string;
+    type: string;
+    address: string;
+  };
+}
+
 interface GoogleDrive {
   driveContent: (data: IJpegify) => void;
   getDrive: (driveId: string) => Promise<drive_v3.Schema$Drive>;
+  getFileDetails: (fileId: string) => Promise<drive_v3.Schema$File>;
+  watch: (params: IWatchParams) => Promise<void>;
   upload: (data: {
     filePath: string;
     fileName: string;
@@ -16,7 +27,6 @@ interface GoogleDrive {
   download: (data: {
     fileId: string;
     fileName: string;
-    newName: string;
     destineLocation: string;
   }) => void;
 }
@@ -56,6 +66,31 @@ class GoogleDriveService implements GoogleDrive {
     return reply.data;
   }
 
+  async getFileDetails(fileId: string) {
+    try {
+      const response = await this.drive.files.get({
+        fileId: fileId,
+        fields: "id, name, parents",
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error("Error retrieving file details:", error);
+      throw error;
+    }
+  }
+
+  async watch(params: IWatchParams) {
+    await this.drive.files.watch({
+      fileId: params.folderId,
+      requestBody: {
+        id: params.resources.channel,
+        type: params.resources.type,
+        address: params.resources.address,
+      },
+    });
+  }
+
   async driveContent(data: IJpegify) {
     const reply = await this.drive.files.list({
       q: `mimeType='application/vnd.google-apps.folder' and name='${data.originLocation}'`,
@@ -68,7 +103,6 @@ class GoogleDriveService implements GoogleDrive {
   async download(data: {
     fileId: string;
     fileName: string;
-    newName: string;
     destineLocation: string;
   }): Promise<string> {
     let destine = "";
@@ -76,7 +110,7 @@ class GoogleDriveService implements GoogleDrive {
       .get({ fileId: data.fileId, alt: "media" }, { responseType: "stream" })
       .then(async (reply) => {
         if (reply.data) {
-          destine = data.destineLocation.concat(`${data.newName}.jpeg`);
+          destine = data.destineLocation.concat(`${data.fileName}.jpeg`);
           const destLocation = fs.createWriteStream(destine);
           reply.data.pipe(destLocation);
         }
