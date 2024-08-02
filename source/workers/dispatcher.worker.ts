@@ -18,7 +18,7 @@ if (parentPort) {
         while (index < end) {
           index++;
           const item = data.content[index];
-          worker.postMessage({ item, index, end });
+          worker.postMessage({ item });
         }
       }
     }
