@@ -1,28 +1,58 @@
-import { IJpegify } from "../route";
 import { GoogleDriveService } from "./google-drive.service";
 import { Worker } from "node:worker_threads";
+import { IJpegify, IJpegifyParams } from "../jpegify-pipe.worker";
+import { jpegifyWorkerPath } from "../config/path.config";
 
 export class JpegifyService {
   constructor(private googleDriveService: GoogleDriveService) {}
   async execute(data: IJpegify) {
-    const jpegifyWorkers: Record<string, Worker> = {};
     const content = await this.googleDriveService.driveContent(data);
 
-    const itens = 30;
-    const workers = Math.floor(content.length * (itens / 100));
-    for (let item = 0; item <= workers; item += itens) {
-      const range = { start: item, end: item + itens };
-      const label = `${range.start}...${range.end}`;
-
-      if (!jpegifyWorkers[label]) {
-        jpegifyWorkers[label] = new Worker("../workers/jpegify.worker.ts");
+    const batchSize = Math.round(Math.ceil(content.length / 10));
+    const agroupBatchs: Record<string, IJpegifyParams[]> = {};
+    content.forEach((item, index) => {
+      let key = 0;
+      if (index % batchSize === 0) {
+        key = key + index;
       }
-    }
 
-    const dispatcherWorker = new Worker("../workers/dispatcher.worker.ts");
-    dispatcherWorker.postMessage(
-      JSON.stringify({ workers: jpegifyWorkers, content })
+      const { id, name, mimeType, modifiedTime, driveId } = item;
+      if (id && name && mimeType && modifiedTime && driveId) {
+        const payload = {
+          item: {
+            id,
+            name,
+            mimeType,
+            modifiedTime,
+          },
+          driveId,
+        };
+
+        if (agroupBatchs[`${key}`]) {
+          agroupBatchs[`${key}`].push(payload);
+        } else agroupBatchs[`${key}`] = [payload];
+      }
+    });
+
+    const jpegifyWorker = new Worker(jpegifyWorkerPath);
+
+    const initialKey = "0";
+    const currentBatch = Buffer.from(
+      JSON.stringify({ key: initialKey, data: agroupBatchs[initialKey] })
     );
+
+    jpegifyWorker.on("message", (backcomming_data) => {
+      const nxtKey = Number(backcomming_data) + 1;
+      if (agroupBatchs[`${nxtKey}`]) {
+        const buffer = Buffer.from(
+          JSON.stringify({ key: initialKey, data: agroupBatchs[nxtKey] })
+        );
+
+        jpegifyWorker.postMessage(buffer);
+      }
+    });
+
+    jpegifyWorker.postMessage(currentBatch);
   }
 }
 
