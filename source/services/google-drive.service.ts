@@ -2,7 +2,7 @@ import { OAuth2Client } from "google-auth-library";
 import { drive_v3, google } from "googleapis";
 import { injectable } from "tsyringe";
 import fs from "fs";
-import { IJpegify } from "../jpegify-pipe.worker";
+import { IJpegify } from "../route";
 
 interface IWatchParams {
   driveId: string;

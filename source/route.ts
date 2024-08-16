@@ -1,27 +1,23 @@
 import { Request, Response, Router } from "express";
 import { GoogleDriveService } from "./services/google-drive.service";
-import { JpegifyService } from "./services/jpegify.service";
 import { container } from "tsyringe";
 import { authorize } from "./auth/google-auth";
-import { IJpegify } from "./jpegify-pipe.worker";
 import axios from "axios";
 import { GoogleDriveRepository } from "./shared/repository/google-drive.repository";
 import { OAuth2Client } from "google-auth-library";
 
+export interface IJpegify {
+  requester: {
+    name: string;
+    email: string;
+  };
+  originLocation: string;
+  deletePreviousFile: boolean;
+}
+
 const jpegifyRouter = Router();
 const googleDriveService = container.resolve(GoogleDriveService);
 const googleDriveRepository = container.resolve(GoogleDriveRepository);
-
-jpegifyRouter.post("/2jpeg", async (request: Request, response: Response) => {
-  const jpegify = async (data: IJpegify) => {
-    const dispatchToJpegifyService = new JpegifyService(googleDriveService);
-    await dispatchToJpegifyService.execute({
-      ...data,
-      deletePreviousFile: false,
-    });
-  };
-  return response.send();
-});
 
 jpegifyRouter.post(
   "/authorize",
