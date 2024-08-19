@@ -18,5 +18,4 @@ Gerencia o processo completo de autenticação com as APIs do Google, gerando e 
 ##
 > [!WARNING]
 > Devido às limitações impostas pelos escopos confidenciais do Google Drive, a aplicação foi ajustada para incluir um módulo dedicado à **`criação de pastas`**.
-> Com essas restrições, a aplicação agora pode criar e gerenciar pastas no Google Drive,
-> uma vez que **somente arquivos dentro dessas pastas podem ser gerenciados ou criados pela aplicação**.
+> Com essas restrições, a aplicação somente pode criar e gerenciar arquivos e pastas no **Google Drive quando forem criados a partir da mesma**.
